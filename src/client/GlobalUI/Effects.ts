@@ -1,5 +1,5 @@
 import Roact from "@rbxts/roact";
-import Circle from "client/circle";
+import Circle from "client/Components/Base/Circle";
 import { Players, TweenService } from "@rbxts/services";
 
 export const rippleEffect = (frame: Frame, mouse: Mouse) => {
