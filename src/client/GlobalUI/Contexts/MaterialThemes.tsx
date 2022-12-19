@@ -1,6 +1,6 @@
 import Roact from "@rbxts/roact";
 
-export const darkMaterialContext = Roact.createContext({
+export const darkMaterial = Roact.createContext({
 	backgroundShadowColor: Color3.fromRGB(0, 0, 0),
 	backgroundColor: new ColorSequence([
 		new ColorSequenceKeypoint(0.0, Color3.fromRGB(40, 40, 40)),
@@ -20,4 +20,6 @@ export const darkMaterialContext = Roact.createContext({
 		new ColorSequenceKeypoint(0.5, Color3.fromRGB(225, 225, 225)),
 		new ColorSequenceKeypoint(1.0, Color3.fromRGB(195, 195, 195)),
 	]),
+	titleFont: Enum.Font.SourceSansBold,
+	bodyFont: Enum.Font.SourceSans,
 });

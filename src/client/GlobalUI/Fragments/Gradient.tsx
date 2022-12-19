@@ -4,7 +4,6 @@ interface UIProps {
 	startColor: Color3 | ColorSequence;
 	endColor?: Color3;
 	aspectRatio?: number;
-	dominantAxis?: Enum.DominantAxis;
 	gradientRef?: Roact.Ref<UIGradient>;
 }
 
@@ -12,10 +11,11 @@ export class Gradient extends Roact.Component<UIProps> {
 	render() {
 		return (
 			<Roact.Fragment>
-				{this.props.aspectRatio !== undefined && this.props.dominantAxis !== undefined ? (
+				{this.props.aspectRatio !== undefined ? (
 					<uiaspectratioconstraint
 						AspectRatio={this.props.aspectRatio}
-						DominantAxis={this.props.dominantAxis}
+						DominantAxis={Enum.DominantAxis.Width}
+						AspectType={Enum.AspectType.ScaleWithParentSize}
 					></uiaspectratioconstraint>
 				) : undefined}
 				<uigradient

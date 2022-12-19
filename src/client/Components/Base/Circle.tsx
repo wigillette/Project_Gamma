@@ -48,7 +48,7 @@ class Circle extends Roact.Component<UIProps> {
 					size = frame.AbsoluteSize.X * 1.5;
 				}
 
-				const time = 0.5;
+				const time = 0.25;
 				circle.TweenSizeAndPosition(
 					new UDim2(0, size, 0, size),
 					new UDim2(0.5, -size / 2, 0.5, -size / 2),

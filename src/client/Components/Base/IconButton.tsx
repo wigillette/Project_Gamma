@@ -1,53 +1,56 @@
 import Roact from "@rbxts/roact";
 import { Players } from "@rbxts/services";
-import { gradientFollow, rippleEffect } from "../../GlobalUI/Effects";
+import { gradientFollow, playSFX, rippleEffect } from "../../GlobalUI/Effects";
 import { Gradient } from "../../GlobalUI/Fragments/Gradient";
-import { darkMaterialContext } from "../../GlobalUI/Contexts/MaterialThemes";
+import { darkMaterial } from "../../GlobalUI/Contexts/MaterialThemes";
+import {
+	ButtonIcon,
+	RectButtonBG,
+	RectShadow,
+	RippleFrame,
+	SquareAspectRatio,
+} from "client/GlobalUI/PropertyPresets/RectUI";
+import { ImageLibrary } from "shared/ImageInfo";
 
 interface UIProps {
 	position: UDim2;
+	size: UDim2;
+	icon: keyof typeof ImageLibrary.MenuIcons;
 }
 
 class IconButton extends Roact.Component<UIProps> {
 	frameRef: Roact.Ref<Frame>;
-	gradientRef: Roact.Ref<UIGradient>;
+	buttonGradient: Roact.Ref<UIGradient>;
 	iconGradient: Roact.Ref<UIGradient>;
 
 	constructor(props: UIProps) {
 		super(props);
 		this.iconGradient = Roact.createRef<UIGradient>();
 		this.frameRef = Roact.createRef<Frame>();
-		this.gradientRef = Roact.createRef<UIGradient>();
+		this.buttonGradient = Roact.createRef<UIGradient>();
 	}
 
 	render() {
-		return Roact.createElement(darkMaterialContext.Consumer, {
+		return Roact.createElement(darkMaterial.Consumer, {
 			render: (theme) => (
 				<frame
-					BorderSizePixel={0}
-					Size={new UDim2(0.1, 0, 0.1, 0)}
+					{...RippleFrame}
+					Size={this.props.size}
 					Position={this.props.position}
-					BackgroundTransparency={1}
-					AnchorPoint={new Vector2(0.025, 0.975)}
+					AnchorPoint={new Vector2(this.props.position.X.Scale, this.props.position.Y.Scale)}
 					Ref={this.frameRef}
-					ClipsDescendants={true}
 				>
 					<imagebutton
-						Size={new UDim2(1, 0, 1, -3)}
-						Position={new UDim2(0.5, 0, 0.5, -2.25)}
-						AnchorPoint={new Vector2(0.5, 0.5)}
-						Image={"rbxassetid://5351051547"}
-						ScaleType={Enum.ScaleType.Slice}
-						SliceCenter={new Rect(10, 10, 10, 10)}
-						BackgroundTransparency={1}
-						ZIndex={2}
+						{...RectButtonBG}
 						Event={{
 							MouseButton1Click: () => {
+								playSFX("UI", "Click");
 								rippleEffect(this.frameRef.getValue() as Frame, Players.LocalPlayer.GetMouse());
 							},
 							MouseEnter: (rbx) => {
+								playSFX("UI", "Hover");
 								gradientFollow(
-									this.gradientRef.getValue() as UIGradient,
+									this.buttonGradient.getValue() as UIGradient,
 									rbx,
 									true,
 									this.iconGradient.getValue() as UIGradient,
@@ -55,7 +58,7 @@ class IconButton extends Roact.Component<UIProps> {
 							},
 							MouseLeave: (rbx) => {
 								gradientFollow(
-									this.gradientRef.getValue() as UIGradient,
+									this.buttonGradient.getValue() as UIGradient,
 									rbx,
 									false,
 									this.iconGradient.getValue() as UIGradient,
@@ -63,37 +66,13 @@ class IconButton extends Roact.Component<UIProps> {
 							},
 						}}
 					>
-						<Gradient gradientRef={this.gradientRef} startColor={theme.buttonColor} />
-						<imagelabel
-							Size={new UDim2(0.8, 0, 0.8, 0)}
-							Position={new UDim2(0.5, 0, 0.5, 0)}
-							AnchorPoint={new Vector2(0.5, 0.5)}
-							BackgroundTransparency={1}
-							Image={"rbxassetid://5521193430"}
-							ZIndex={3}
-						>
-							<uigradient Ref={this.iconGradient} Rotation={90} Color={theme.iconColor}></uigradient>
-							<uiaspectratioconstraint
-								AspectRatio={1.0}
-								DominantAxis={Enum.DominantAxis.Width}
-							></uiaspectratioconstraint>
+						<Gradient gradientRef={this.buttonGradient} startColor={theme.buttonColor} />
+						<imagelabel {...ButtonIcon} Image={this.props.icon}>
+							<Gradient startColor={theme.iconColor} gradientRef={this.iconGradient} aspectRatio={1} />
 						</imagelabel>
 					</imagebutton>
-					<imagelabel
-						Size={new UDim2(1, 0, 1, 0)}
-						Position={new UDim2(0.5, 0, 0.5, 0)}
-						AnchorPoint={new Vector2(0.5, 0.5)}
-						Image={"rbxassetid://5351051547"}
-						ImageColor3={theme.buttonShadowColor}
-						ScaleType={Enum.ScaleType.Slice}
-						BackgroundTransparency={1}
-						SliceCenter={new Rect(10, 10, 10, 10)}
-						ZIndex={1}
-					></imagelabel>
-					<uiaspectratioconstraint
-						AspectRatio={1.0}
-						DominantAxis={Enum.DominantAxis.Width}
-					></uiaspectratioconstraint>
+					<imagelabel {...RectShadow} ImageColor3={theme.buttonShadowColor}></imagelabel>
+					<uiaspectratioconstraint {...SquareAspectRatio}></uiaspectratioconstraint>
 				</frame>
 			),
 		});
