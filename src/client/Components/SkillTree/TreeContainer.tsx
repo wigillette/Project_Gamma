@@ -18,9 +18,11 @@ interface UIProps {
 class TreeContainer extends Roact.Component<UIProps> {
 	frameRef: Roact.Ref<Frame>;
 	buttonGradient: Roact.Ref<UIGradient>;
+	oldFade: boolean;
 
 	constructor(props: UIProps) {
 		super(props);
+		this.oldFade = false;
 		this.frameRef = Roact.createRef<Frame>();
 		this.buttonGradient = Roact.createRef<UIGradient>();
 	}
@@ -50,8 +52,9 @@ class TreeContainer extends Roact.Component<UIProps> {
 		movingFadeAbsolute(container, this.props.toggle, getMenuPosition(this.props.toggle), true);
 	}
 
-	protected didUpdate(previousProps: UIProps): void {
-		if (this.props.toggle !== previousProps.toggle) {
+	protected didUpdate(): void {
+		if (this.props.toggle !== this.oldFade) {
+			this.oldFade = this.props.toggle;
 			const container = this.frameRef.getValue() as Frame;
 			movingFadeAbsolute(container, this.props.toggle, getMenuPosition(this.props.toggle), true);
 		}

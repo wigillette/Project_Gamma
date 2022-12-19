@@ -3,7 +3,7 @@ import Circle from "client/Components/Base/Circle";
 import { Players, SoundService, TweenService, Workspace } from "@rbxts/services";
 import { AudioLibrary } from "shared/AudioInfo";
 
-const tweenInfo: TweenInfo = new TweenInfo(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0, false, 0);
+const tweenInfo: TweenInfo = new TweenInfo(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0, false, 0);
 
 // Click Ripple Effect
 export const rippleEffect = (frame: Frame, mouse: Mouse) => {
@@ -147,31 +147,34 @@ const updateBlurEffect = (fadeIn: boolean, key: string) => {
 	const camera = Workspace.CurrentCamera;
 	if (camera) {
 		let blur = camera.FindFirstChild(key) as BlurEffect;
-		if (!blur) {
-			blur = new Instance("BlurEffect", camera);
-			blur.Name = key;
-			blur.Parent = camera;
-		}
-		if (fadeIn) {
-			blur.Size = 0;
-			blur.Enabled = true;
-		}
-		TweenService.Create(blur, tweenInfo, {
-			Size: (fadeIn && 30) || 0,
-		}).Play();
-		if (!fadeIn) {
-			coroutine.wrap(() => {
-				wait(0.3);
-				blur.Enabled = false;
-				blur.Destroy();
-			})();
+		if (!(blur && fadeIn)) {
+			if (!blur) {
+				blur = new Instance("BlurEffect", camera);
+				blur.Name = key;
+				blur.Parent = camera;
+			}
+			if (fadeIn) {
+				blur.Size = 0;
+				blur.Enabled = true;
+			}
+			const tween = TweenService.Create(blur, tweenInfo, {
+				Size: (fadeIn && 30) || 0,
+			});
+			if (!fadeIn) {
+				const connection = tween.Completed.Connect(() => {
+					blur.Enabled = false;
+					blur.Destroy();
+					connection.Disconnect();
+				});
+			}
+			tween.Play();
 		}
 	}
 };
 
 // Tween to a specified position
 export const tweenPosAbsolute = (frame: Frame | TextLabel | ImageLabel, position: UDim2) => {
-	pcall(() => frame.TweenPosition(position, Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.15, true, undefined));
+	pcall(() => frame.TweenPosition(position, Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.25, true, undefined));
 };
 
 // Menu Toggle Fade In/Out
@@ -183,16 +186,19 @@ export const movingFadeAbsolute = (
 ) => {
 	const state = debounces.get(frame);
 
-	if (!state) {
+	if (state === undefined || state === false) {
 		debounces.set(frame, true);
-		// Add the blur effect
-		if (blurEffect) {
-			updateBlurEffect(fadeIn, frame.Name);
-		}
 		// Tween the frame
 		tweenPosAbsolute(frame, position);
 		// Tween the transparency
 		tweenTransparency(frame, true, fadeIn);
-		debounces.set(frame, false);
+		// Add the blur effect
+		if (blurEffect) {
+			updateBlurEffect(fadeIn, frame.Name);
+		}
+		spawn(() => {
+			wait(0.25);
+			debounces.set(frame, false);
+		});
 	}
 };
