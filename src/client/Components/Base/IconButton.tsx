@@ -16,6 +16,7 @@ interface UIProps {
 	position: UDim2;
 	size: UDim2;
 	icon: keyof typeof ImageLibrary.MenuIcons;
+	callback: () => void;
 }
 
 class IconButton extends Roact.Component<UIProps> {
@@ -46,6 +47,7 @@ class IconButton extends Roact.Component<UIProps> {
 							MouseButton1Click: () => {
 								playSFX("UI", "Click");
 								rippleEffect(this.frameRef.getValue() as Frame, Players.LocalPlayer.GetMouse());
+								this.props.callback();
 							},
 							MouseEnter: (rbx) => {
 								playSFX("UI", "Hover");

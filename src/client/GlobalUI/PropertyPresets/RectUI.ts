@@ -1,8 +1,11 @@
 import { ImageLibrary } from "shared/ImageInfo";
 
 // Outer Container
+export const getMenuPosition = (fadeIn: boolean) => (fadeIn ? new UDim2(0.5, 0, 0.5, 0) : new UDim2(0.5, 0, 0.2, 0));
+
 export const RectContainer: Partial<WritableInstanceProperties<Frame>> = {
 	BackgroundTransparency: 1,
+	BorderSizePixel: 0,
 };
 
 // Outer Rectangle Properties
