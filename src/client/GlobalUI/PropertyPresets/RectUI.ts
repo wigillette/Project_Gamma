@@ -30,6 +30,7 @@ export const RectShadow: Partial<WritableInstanceProperties<ImageLabel>> = {
 export const RectText: Partial<WritableInstanceProperties<TextLabel>> = {
 	TextScaled: true,
 	BackgroundTransparency: 1,
+	ZIndex: 4,
 };
 
 export const MenuAspectRatio: Partial<WritableInstanceProperties<UIAspectRatioConstraint>> = {
@@ -39,20 +40,42 @@ export const MenuAspectRatio: Partial<WritableInstanceProperties<UIAspectRatioCo
 };
 
 // Inner Rectangle Properties
+export const Title: Partial<WritableInstanceProperties<TextLabel>> = {
+	...RectText,
+	Size: new UDim2(0.8, 0, 0.9, 0),
+	Position: new UDim2(0.5, 0, 0.5, 0),
+	AnchorPoint: new Vector2(0.5, 0.5),
+	ZIndex: 4,
+};
+
+export const CardTitle: Partial<WritableInstanceProperties<TextLabel>> = {
+	...RectText,
+	Size: new UDim2(0.9, 0, 0.1, 0),
+	Position: new UDim2(0.5, 0, 0.05, 0),
+	AnchorPoint: new Vector2(0.5, 0.05),
+	ZIndex: 4,
+};
+
 export const Header: Partial<WritableInstanceProperties<ImageLabel>> = {
+	Image: ImageLibrary.UI.RoundRect,
+	ScaleType: Enum.ScaleType.Slice,
+	SliceCenter: new Rect(10, 10, 10, 10),
 	BackgroundTransparency: 1,
-	ZIndex: 2,
+	ZIndex: 3,
 	Position: new UDim2(0.5, 0, 0, 0),
 	Size: new UDim2(1, 0, 0.2, 0),
 	AnchorPoint: new Vector2(0.5, 0),
 };
 
 export const Body: Partial<WritableInstanceProperties<ImageLabel>> = {
-	AnchorPoint: new Vector2(0.5, 0.9),
-	Position: new UDim2(0.5, 0, 0.9, 0),
+	Image: ImageLibrary.UI.RoundRect,
+	AnchorPoint: new Vector2(0.5, 0.85),
+	Position: new UDim2(0.5, 0, 0.85, 0),
 	BackgroundTransparency: 1,
-	ZIndex: 2,
-	Size: new UDim2(0.95, 0, 0.75, 0),
+	ScaleType: Enum.ScaleType.Slice,
+	SliceCenter: new Rect(10, 10, 10, 10),
+	ZIndex: 3,
+	Size: new UDim2(0.95, 0, 0.5, 0),
 };
 
 // Button Properties

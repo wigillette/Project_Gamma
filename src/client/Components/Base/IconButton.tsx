@@ -11,12 +11,13 @@ import {
 	SquareAspectRatio,
 } from "client/GlobalUI/PropertyPresets/RectUI";
 import { ImageLibrary } from "shared/ImageInfo";
+import RoactRodux from "@rbxts/roact-rodux";
 
 interface UIProps {
 	position: UDim2;
 	size: UDim2;
 	icon: keyof typeof ImageLibrary.MenuIcons;
-	callback: () => void;
+	toggleSkillTree: () => void;
 }
 
 class IconButton extends Roact.Component<UIProps> {
@@ -47,7 +48,7 @@ class IconButton extends Roact.Component<UIProps> {
 							MouseButton1Click: () => {
 								playSFX("UI", "Click");
 								rippleEffect(this.frameRef.getValue() as Frame, Players.LocalPlayer.GetMouse());
-								this.props.callback();
+								this.props.toggleSkillTree();
 							},
 							MouseEnter: (rbx) => {
 								playSFX("UI", "Hover");
@@ -81,4 +82,12 @@ class IconButton extends Roact.Component<UIProps> {
 	}
 }
 
-export default IconButton;
+export = RoactRodux.connect(undefined, (dispatch) => {
+	return {
+		toggleSkillTree: () => {
+			dispatch({
+				type: "toggleSkillTree",
+			});
+		},
+	};
+})(IconButton);

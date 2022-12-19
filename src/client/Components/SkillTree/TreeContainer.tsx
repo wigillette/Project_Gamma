@@ -6,9 +6,12 @@ import { darkMaterial } from "../../GlobalUI/Contexts/MaterialThemes";
 import {
 	getMenuPosition,
 	MenuAspectRatio,
-	RectButtonBG,
+	RectBG,
 	RectContainer,
 	RectShadow,
+	Body,
+	Header,
+	Title,
 } from "client/GlobalUI/PropertyPresets/RectUI";
 
 interface UIProps {
@@ -17,14 +20,10 @@ interface UIProps {
 
 class TreeContainer extends Roact.Component<UIProps> {
 	frameRef: Roact.Ref<Frame>;
-	buttonGradient: Roact.Ref<UIGradient>;
-	oldFade: boolean;
 
 	constructor(props: UIProps) {
 		super(props);
-		this.oldFade = false;
 		this.frameRef = Roact.createRef<Frame>();
-		this.buttonGradient = Roact.createRef<UIGradient>();
 	}
 
 	render() {
@@ -37,8 +36,20 @@ class TreeContainer extends Roact.Component<UIProps> {
 					AnchorPoint={new Vector2(0.5, 0.5)}
 					Ref={this.frameRef}
 				>
-					<imagelabel {...RectButtonBG}>
-						<Gradient gradientRef={this.buttonGradient} startColor={theme.backgroundColor} />
+					<imagelabel {...RectBG}>
+						<Gradient startColor={theme.backgroundColor} />
+						<imagelabel {...Header}>
+							<textlabel
+								{...Title}
+								Font={theme.titleFont}
+								Text={"Skill Tree"}
+								TextColor3={theme.textColor}
+							></textlabel>
+							<Gradient startColor={theme.innerBGColor} aspectRatio={10}></Gradient>
+						</imagelabel>
+						<imagelabel {...Body}>
+							<Gradient startColor={theme.innerBGColor} aspectRatio={1.85}></Gradient>
+						</imagelabel>
 					</imagelabel>
 					<imagelabel {...RectShadow} ImageColor3={theme.backgroundShadowColor}></imagelabel>
 					<uiaspectratioconstraint {...MenuAspectRatio}></uiaspectratioconstraint>
@@ -52,9 +63,8 @@ class TreeContainer extends Roact.Component<UIProps> {
 		movingFadeAbsolute(container, this.props.toggle, getMenuPosition(this.props.toggle), true);
 	}
 
-	protected didUpdate(): void {
-		if (this.props.toggle !== this.oldFade) {
-			this.oldFade = this.props.toggle;
+	protected didUpdate(previousProps: UIProps): void {
+		if (this.props.toggle !== previousProps.toggle) {
 			const container = this.frameRef.getValue() as Frame;
 			movingFadeAbsolute(container, this.props.toggle, getMenuPosition(this.props.toggle), true);
 		}

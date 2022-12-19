@@ -11,11 +11,6 @@ const Main = () => {
 				position={new UDim2(0.025, 0, 0.975, 0)}
 				size={new UDim2(0.05, 0, 0.05, 0)}
 				icon={ImageLibrary.MenuIcons.SkillTree as keyof typeof ImageLibrary.MenuIcons}
-				callback={() =>
-					Store.dispatch({
-						type: "toggleSkillTree",
-					})
-				}
 			></IconButton>
 			<TreeContainer />
 		</screengui>
