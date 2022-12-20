@@ -48,14 +48,6 @@ export const Title: Partial<WritableInstanceProperties<TextLabel>> = {
 	ZIndex: 4,
 };
 
-export const CardTitle: Partial<WritableInstanceProperties<TextLabel>> = {
-	...RectText,
-	Size: new UDim2(0.9, 0, 0.1, 0),
-	Position: new UDim2(0.5, 0, 0.05, 0),
-	AnchorPoint: new Vector2(0.5, 0.05),
-	ZIndex: 4,
-};
-
 export const Header: Partial<WritableInstanceProperties<ImageLabel>> = {
 	Image: ImageLibrary.UI.RoundRect,
 	ScaleType: Enum.ScaleType.Slice,
@@ -98,9 +90,8 @@ export const RectButtonText: Partial<WritableInstanceProperties<TextLabel>> = {
 };
 
 export const RippleFrame: Partial<WritableInstanceProperties<Frame>> = {
-	BackgroundTransparency: 1,
+	...RectContainer,
 	ClipsDescendants: true,
-	BorderSizePixel: 0,
 };
 
 export const SquareAspectRatio: Partial<WritableInstanceProperties<UIAspectRatioConstraint>> = {
@@ -116,4 +107,34 @@ export const ButtonIcon: Partial<WritableInstanceProperties<ImageLabel>> = {
 	AnchorPoint: new Vector2(0.5, 0.5),
 	BackgroundTransparency: 1,
 	ZIndex: 2,
+};
+
+// Card Properties
+export const CardButtonFrame: Partial<WritableInstanceProperties<Frame>> = {
+	...RippleFrame,
+	Position: new UDim2(0.5, 0, 0.95, 0),
+	AnchorPoint: new Vector2(0.5, 0.95),
+	Size: new UDim2(0.75, 0, 0.25, 0),
+	ZIndex: 4,
+};
+
+export const CardTitle: Partial<WritableInstanceProperties<TextLabel>> = {
+	...RectText,
+	Size: new UDim2(0.9, 0, 0.3, 0),
+	Position: new UDim2(0.5, 0, 0.05, 0),
+	AnchorPoint: new Vector2(0.5, 0.05),
+	ZIndex: 4,
+};
+
+export const ButtonText: Partial<WritableInstanceProperties<TextLabel>> = {
+	...RectText,
+	Size: new UDim2(0.9, 0, 0.9, 0),
+	Position: new UDim2(0.5, 0, 0.5, 0),
+	AnchorPoint: new Vector2(0.5, 0.5),
+	ZIndex: 7,
+};
+
+export const CardButtonAspectRatio: Partial<WritableInstanceProperties<UIAspectRatioConstraint>> = {
+	...ButtonAspectRatio,
+	AspectRatio: 3.5,
 };

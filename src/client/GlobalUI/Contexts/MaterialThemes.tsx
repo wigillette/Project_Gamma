@@ -33,4 +33,6 @@ export const darkMaterial = Roact.createContext({
 	cardShadow: Color3.fromRGB(120, 120, 120),
 	titleFont: Enum.Font.SourceSansBold,
 	bodyFont: Enum.Font.SourceSans,
+	midFont: Enum.Font.SourceSansSemibold,
+	cardTitleColor: Color3.fromRGB(0, 0, 0),
 });

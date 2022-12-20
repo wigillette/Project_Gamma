@@ -3,6 +3,7 @@ import RoactRodux from "@rbxts/roact-rodux";
 import { movingFadeAbsolute } from "../../GlobalUI/Effects";
 import { Gradient } from "../../GlobalUI/Fragments/Gradient";
 import { darkMaterial } from "../../GlobalUI/Contexts/MaterialThemes";
+import SkillItem from "./SkillItem";
 import {
 	getMenuPosition,
 	MenuAspectRatio,
@@ -49,6 +50,18 @@ class TreeContainer extends Roact.Component<UIProps> {
 						</imagelabel>
 						<imagelabel {...Body}>
 							<Gradient startColor={theme.innerBGColor} aspectRatio={1.85}></Gradient>
+							<SkillItem
+								owned={false}
+								position={new UDim2(0, 0, 0, 0)}
+								skillName={"Beginner"}
+								requiredLevel={tostring(1)}
+							/>
+							<SkillItem
+								owned={false}
+								position={new UDim2(0.15, 0, 0, 0)}
+								skillName={"Beginner"}
+								requiredLevel={tostring(1)}
+							/>
 						</imagelabel>
 					</imagelabel>
 					<imagelabel {...RectShadow} ImageColor3={theme.backgroundShadowColor}></imagelabel>
