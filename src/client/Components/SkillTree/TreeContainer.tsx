@@ -14,6 +14,8 @@ import {
 	Header,
 	Title,
 } from "client/GlobalUI/PropertyPresets/RectUI";
+import { Tree } from "client/Wrappers/Tree";
+import SKILL_INFO from "shared/SkillInfo";
 
 interface UIProps {
 	toggle: boolean;
@@ -21,10 +23,15 @@ interface UIProps {
 
 class TreeContainer extends Roact.Component<UIProps> {
 	frameRef: Roact.Ref<Frame>;
+	skillTree: Tree;
 
 	constructor(props: UIProps) {
 		super(props);
 		this.frameRef = Roact.createRef<Frame>();
+		this.skillTree = new Tree(SKILL_INFO[0]);
+		this.skillTree.initChildren(this.skillTree.root);
+		this.skillTree.root.computeXCoords(0.5);
+		this.skillTree.root.computeYCoords(0);
 	}
 
 	render() {
@@ -50,18 +57,16 @@ class TreeContainer extends Roact.Component<UIProps> {
 						</imagelabel>
 						<imagelabel {...Body}>
 							<Gradient startColor={theme.innerBGColor} aspectRatio={1.85}></Gradient>
-							<SkillItem
-								owned={false}
-								position={new UDim2(0, 0, 0, 0)}
-								skillName={"Beginner"}
-								requiredLevel={tostring(1)}
-							/>
-							<SkillItem
-								owned={false}
-								position={new UDim2(0.15, 0, 0, 0)}
-								skillName={"Beginner"}
-								requiredLevel={tostring(1)}
-							/>
+							{this.skillTree.nodes.map((node) => (
+								<SkillItem
+									owned={false}
+									position={new UDim2(node.x, 0, node.y, 0)}
+									skillName={node.name}
+									requiredLevel={tostring(node.minLevel)}
+									hasLeftChild={node.left !== undefined}
+									hasRightChild={node.right !== undefined}
+								/>
+							))}
 						</imagelabel>
 					</imagelabel>
 					<imagelabel {...RectShadow} ImageColor3={theme.backgroundShadowColor}></imagelabel>

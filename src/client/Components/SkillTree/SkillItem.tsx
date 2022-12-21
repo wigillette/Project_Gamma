@@ -12,7 +12,7 @@ import {
 	ButtonText,
 	CardTitle,
 } from "client/GlobalUI/PropertyPresets/RectUI";
-import { playSFX, rippleEffect } from "client/GlobalUI/Effects";
+import { onGradientHover, playSFX, rippleEffect } from "client/GlobalUI/Effects";
 import { Players } from "@rbxts/services";
 
 interface UIProps {
@@ -20,10 +20,13 @@ interface UIProps {
 	position: UDim2;
 	skillName: string;
 	requiredLevel: string;
+	hasLeftChild: boolean;
+	hasRightChild: boolean;
 }
 
 class SkillItem extends Roact.Component<UIProps> {
 	frameRef: Roact.Ref<Frame>;
+	gradientRef: Roact.Ref<UIGradient>;
 	paddingSize: UDim;
 	itemSize: UDim2;
 
@@ -32,6 +35,7 @@ class SkillItem extends Roact.Component<UIProps> {
 		this.paddingSize = new UDim(0.08, 0);
 		this.itemSize = new UDim2(0.1, 0, 0.1, 0);
 		this.frameRef = Roact.createRef<Frame>();
+		this.gradientRef = Roact.createRef<UIGradient>();
 	}
 
 	render() {
@@ -68,15 +72,19 @@ class SkillItem extends Roact.Component<UIProps> {
 										playSFX("UI", "Click");
 										rippleEffect(this.frameRef.getValue() as Frame, Players.LocalPlayer.GetMouse());
 									},
-									MouseEnter: (rbx) => {
+									MouseEnter: () => {
 										playSFX("UI", "Hover");
+										onGradientHover(true, this.gradientRef.getValue() as UIGradient);
 									},
-									MouseLeave: (rbx) => {},
+									MouseLeave: () => {
+										onGradientHover(false, this.gradientRef.getValue() as UIGradient);
+									},
 								}}
 							>
 								<Gradient
 									startColor={theme.buttonColor}
 									aspectRatio={CardButtonAspectRatio.AspectRatio}
+									gradientRef={this.gradientRef}
 								></Gradient>
 								<textlabel
 									{...ButtonText}

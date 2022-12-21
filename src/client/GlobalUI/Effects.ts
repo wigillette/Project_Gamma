@@ -35,6 +35,12 @@ export const playSFX = (category: string, key: string) => {
 	audioObject.Play();
 };
 
+// Gradient Hover Tween
+export const onGradientHover = (isHovering: boolean, gradientObject: UIGradient) =>
+	TweenService.Create(gradientObject, tweenInfo, {
+		Offset: isHovering ? new Vector2(0, 0.5) : new Vector2(0, 0),
+	}).Play();
+
 // Gradient Mouse Follow Effect
 const gradientConnections: RBXScriptConnection[] = [];
 
