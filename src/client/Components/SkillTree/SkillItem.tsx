@@ -11,6 +11,7 @@ import {
 	RectButtonBG,
 	ButtonText,
 	CardTitle,
+	ButtonAspectRatio,
 } from "client/GlobalUI/PropertyPresets/RectUI";
 import { onGradientHover, playSFX, rippleEffect } from "client/GlobalUI/Effects";
 import { Players } from "@rbxts/services";
@@ -101,6 +102,30 @@ class SkillItem extends Roact.Component<UIProps> {
 					</imagelabel>
 					<imagelabel {...RectShadow} ImageColor3={theme.cardShadow} ZIndex={4}></imagelabel>
 					<uiaspectratioconstraint {...SquareAspectRatio}></uiaspectratioconstraint>
+					<frame
+						Visible={this.props.hasLeftChild}
+						Size={new UDim2(0.8, 0, 0.1, 0)}
+						BorderSizePixel={0}
+						BackgroundColor3={Color3.fromRGB(0, 0, 0)}
+						Rotation={135}
+						Position={new UDim2(-0.6, 0, 1.2, 0)}
+						AnchorPoint={new Vector2(0, 1)}
+						ZIndex={3}
+					>
+						<uiaspectratioconstraint {...ButtonAspectRatio} AspectRatio={8}></uiaspectratioconstraint>
+					</frame>
+					<frame
+						Visible={this.props.hasRightChild}
+						Size={new UDim2(0.8, 0, 0.1, 0)}
+						BorderSizePixel={0}
+						BackgroundColor3={Color3.fromRGB(0, 0, 0)}
+						Rotation={225}
+						Position={new UDim2(1.6, 0, 1.2, 0)}
+						AnchorPoint={new Vector2(1, 0)}
+						ZIndex={3}
+					>
+						<uiaspectratioconstraint {...ButtonAspectRatio} AspectRatio={8}></uiaspectratioconstraint>
+					</frame>
 				</frame>
 			),
 		});

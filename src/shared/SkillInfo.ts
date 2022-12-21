@@ -30,10 +30,17 @@ const SKILL_INFO: skillData[] = [
 		postReqs: [],
 		preReqs: [],
 	},
+	{
+		name: "Honorary",
+		minLevel: 9,
+		postReqs: [],
+		preReqs: [],
+	},
 ];
 
 SKILL_INFO[0].postReqs.push(SKILL_INFO[1]);
 SKILL_INFO[0].postReqs.push(SKILL_INFO[2]);
 SKILL_INFO[1].postReqs.push(SKILL_INFO[3]);
+SKILL_INFO[1].postReqs.push(SKILL_INFO[4]);
 // potentially change to strings to avoid this?? or use dict?
 export default SKILL_INFO;

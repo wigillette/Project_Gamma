@@ -1,5 +1,7 @@
-const Y_OFFSET = 0.225;
-const X_OFFSET = 0.125;
+let Y_OFFSET = 0.3;
+let X_OFFSET = 0.15;
+const downscaleFactor = 1.25;
+
 import { skillData } from "shared/SkillInfo";
 
 export class TreeNode {
@@ -26,6 +28,7 @@ export class TreeNode {
 	computeYCoords(y: number) {
 		this.y = y;
 		const newY = y + Y_OFFSET;
+		Y_OFFSET /= downscaleFactor;
 		if (this.left) {
 			this.left.computeYCoords(newY);
 		}
@@ -36,13 +39,14 @@ export class TreeNode {
 
 	computeXCoords(x: number) {
 		this.x = x;
-		let newX = x - X_OFFSET;
+		const newX1 = x - X_OFFSET;
+		const newX2 = x + X_OFFSET;
+		X_OFFSET /= downscaleFactor;
 		if (this.left) {
-			this.left.computeXCoords(newX);
+			this.left.computeXCoords(newX1);
 		}
-		newX = x + X_OFFSET;
 		if (this.right) {
-			this.right.computeXCoords(newX);
+			this.right.computeXCoords(newX2);
 		}
 	}
 }
