@@ -23,6 +23,7 @@ interface UIProps {
 	requiredLevel: string;
 	hasLeftChild: boolean;
 	hasRightChild: boolean;
+	branchScaleFactor: number;
 }
 
 class SkillItem extends Roact.Component<UIProps> {
@@ -104,28 +105,24 @@ class SkillItem extends Roact.Component<UIProps> {
 					<uiaspectratioconstraint {...SquareAspectRatio}></uiaspectratioconstraint>
 					<frame
 						Visible={this.props.hasLeftChild}
-						Size={new UDim2(0.8, 0, 0.1, 0)}
+						Size={new UDim2(this.props.branchScaleFactor, 0, 0.1, 0)}
 						BorderSizePixel={0}
 						BackgroundColor3={Color3.fromRGB(0, 0, 0)}
 						Rotation={135}
-						Position={new UDim2(-0.6, 0, 1.2, 0)}
+						Position={new UDim2(-this.props.branchScaleFactor + 0.25, 0, this.props.branchScaleFactor, 0)}
 						AnchorPoint={new Vector2(0, 1)}
 						ZIndex={3}
-					>
-						<uiaspectratioconstraint {...ButtonAspectRatio} AspectRatio={8}></uiaspectratioconstraint>
-					</frame>
+					></frame>
 					<frame
 						Visible={this.props.hasRightChild}
-						Size={new UDim2(0.8, 0, 0.1, 0)}
+						Size={new UDim2(this.props.branchScaleFactor, 0, 0.1, 0)}
 						BorderSizePixel={0}
 						BackgroundColor3={Color3.fromRGB(0, 0, 0)}
 						Rotation={225}
-						Position={new UDim2(1.6, 0, 1.2, 0)}
-						AnchorPoint={new Vector2(1, 0)}
+						Position={new UDim2(0.75 + this.props.branchScaleFactor, 0, this.props.branchScaleFactor, 0)}
+						AnchorPoint={new Vector2(1, 1)}
 						ZIndex={3}
-					>
-						<uiaspectratioconstraint {...ButtonAspectRatio} AspectRatio={8}></uiaspectratioconstraint>
-					</frame>
+					></frame>
 				</frame>
 			),
 		});

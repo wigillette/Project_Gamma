@@ -1,46 +1,66 @@
 export interface skillData {
-	name: string;
 	minLevel: number;
-	postReqs: Array<skillData>;
-	preReqs: Array<skillData>;
+	postReqs: Array<string>;
+	preReqs: Array<string>;
 }
 
-const SKILL_INFO: skillData[] = [
-	{
-		name: "Beginner",
-		minLevel: 1,
-		postReqs: [],
-		preReqs: [],
-	},
-	{
-		name: "Intermediate",
-		minLevel: 3,
-		postReqs: [],
-		preReqs: [],
-	},
-	{
-		name: "Advanced",
-		minLevel: 5,
-		postReqs: [],
-		preReqs: [],
-	},
-	{
-		name: "Legendary",
-		minLevel: 7,
-		postReqs: [],
-		preReqs: [],
-	},
-	{
-		name: "Honorary",
-		minLevel: 9,
-		postReqs: [],
-		preReqs: [],
-	},
-];
+const SKILL_INFO: Map<string, skillData> = new Map([
+	[
+		"Supreme",
+		{
+			minLevel: 13,
+			postReqs: [],
+			preReqs: ["Advanced"],
+		},
+	],
+	[
+		"Prodigy",
+		{
+			minLevel: 11,
+			postReqs: [],
+			preReqs: ["Advanced"],
+		},
+	],
+	[
+		"Honorary",
+		{
+			minLevel: 9,
+			postReqs: [],
+			preReqs: ["Intermediate"],
+		},
+	],
+	[
+		"Legendary",
+		{
+			minLevel: 7,
+			postReqs: [],
+			preReqs: ["Intermediate"],
+		},
+	],
+	[
+		"Advanced",
+		{
+			minLevel: 5,
+			postReqs: ["Prodigy", "Supreme"],
+			preReqs: ["Beginner"],
+		},
+	],
+	[
+		"Intermediate",
+		{
+			minLevel: 3,
+			postReqs: ["Legendary", "Honorary"],
+			preReqs: ["Beginner"],
+		},
+	],
+	[
+		"Beginner",
+		{
+			minLevel: 1,
+			postReqs: ["Intermediate", "Advanced"],
+			preReqs: [],
+		},
+	],
+]);
 
-SKILL_INFO[0].postReqs.push(SKILL_INFO[1]);
-SKILL_INFO[0].postReqs.push(SKILL_INFO[2]);
-SKILL_INFO[1].postReqs.push(SKILL_INFO[3]);
-SKILL_INFO[1].postReqs.push(SKILL_INFO[4]);
-// potentially change to strings to avoid this?? or use dict?
 export default SKILL_INFO;

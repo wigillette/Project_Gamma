@@ -1,0 +1,17 @@
+{
+	"version": 1,
+	"flameworkVersion": "1.0.0-beta.15",
+	"identifiers": {
+		"project_gamma:out/client/Components/Base/Circle@Circle": "client/Components/Base/Circle@Circle",
+		"project_gamma:out/client/GlobalUI/Fragments/Gradient@Gradient": "client/GlobalUI/Fragments/Gradient@Gradient",
+		"project_gamma:out/client/Components/Base/IconButton@IconButton": "client/Components/Base/IconButton@IconButton",
+		"project_gamma:out/client/Components/SkillTree/SkillItem@SkillItem": "client/Components/SkillTree/SkillItem@SkillItem",
+		"project_gamma:out/client/Wrappers/Tree@TreeNode": "client/Wrappers/Tree@TreeNode",
+		"project_gamma:out/client/Wrappers/Tree@Tree": "client/Wrappers/Tree@Tree",
+		"project_gamma:out/client/Components/SkillTree/TreeContainer@TreeContainer": "client/Components/SkillTree/TreeContainer@TreeContainer",
+		"project_gamma:out/server/Components/TestComponent@TestComponent": "server/Components/TestComponent@TestComponent",
+		"project_gamma:out/server/Components/PlayerInitialize@PlayerInitialize": "server/Components/PlayerInitialize@PlayerInitialize",
+		"project_gamma:out/server/Services/PlayerInitialize@PlayerInitialize": "server/Services/PlayerInitialize@PlayerInitialize"
+	},
+	"metadata": {}
+}

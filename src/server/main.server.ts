@@ -1,2 +1,3 @@
-import { AudioLibrary } from "shared/AudioInfo";
-print("HERE");
+import { Flamework } from "@flamework/core";
+Flamework.addPaths("./Services");
+Flamework.ignite();

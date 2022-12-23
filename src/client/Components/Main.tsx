@@ -1,7 +1,6 @@
 import Roact from "@rbxts/roact";
 import { ImageLibrary } from "shared/ImageInfo";
 import IconButton from "./Base/IconButton";
-import Store from "client/Rodux/Store";
 import TreeContainer from "./SkillTree/TreeContainer";
 
 const Main = () => {

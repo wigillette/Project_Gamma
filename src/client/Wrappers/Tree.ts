@@ -1,52 +1,57 @@
-let Y_OFFSET = 0.3;
-let X_OFFSET = 0.15;
-const downscaleFactor = 1.25;
-
-import { skillData } from "shared/SkillInfo";
+import SKILL_INFO, { skillData } from "shared/SkillInfo";
 
 export class TreeNode {
+	static downscaleFactor = 1.5;
+	static X_OFFSET = 0.175;
+	static Y_OFFSET = 0.35;
 	name: string;
 	minLevel: number;
 	left: TreeNode | undefined;
 	right: TreeNode | undefined;
-	postReqs: Array<skillData>;
-	preReqs: Array<skillData>;
+	postReqs: Array<[keyof typeof SKILL_INFO, skillData]>;
+	preReqs: Array<[keyof typeof SKILL_INFO, skillData]>;
 	x: number;
 	y: number;
+	branchScaleFactor: number;
 
-	constructor(name: string, minLevel: number, preReqs: Array<skillData>, postReqs: Array<skillData>) {
+	constructor(
+		name: string,
+		minLevel: number,
+		preReqs: Array<keyof typeof SKILL_INFO>,
+		postReqs: Array<keyof typeof SKILL_INFO>,
+	) {
 		this.name = name;
 		this.minLevel = minLevel;
 		this.left = undefined;
 		this.right = undefined;
 		this.x = 0;
 		this.y = 0;
-		this.preReqs = preReqs;
-		this.postReqs = postReqs;
+		this.preReqs = preReqs.map((req) => [req, SKILL_INFO.get(req as string) as skillData]);
+		this.postReqs = postReqs.map((req) => [req, SKILL_INFO.get(req as string) as skillData]);
+		this.branchScaleFactor = TreeNode.downscaleFactor;
 	}
 
-	computeYCoords(y: number) {
+	computeYCoords(y: number, newYOffset: number) {
 		this.y = y;
-		const newY = y + Y_OFFSET;
-		Y_OFFSET /= downscaleFactor;
+		const newY = y + newYOffset;
 		if (this.left) {
-			this.left.computeYCoords(newY);
+			this.left.computeYCoords(newY, newYOffset / TreeNode.downscaleFactor);
 		}
 		if (this.right) {
-			this.right.computeYCoords(newY);
+			this.right.computeYCoords(newY, newYOffset / TreeNode.downscaleFactor);
 		}
 	}
 
-	computeXCoords(x: number) {
+	computeXCoords(x: number, newXOffset: number) {
+		this.branchScaleFactor = TreeNode.downscaleFactor;
 		this.x = x;
-		const newX1 = x - X_OFFSET;
-		const newX2 = x + X_OFFSET;
-		X_OFFSET /= downscaleFactor;
+		const newX1 = x - newXOffset;
+		const newX2 = x + newXOffset;
 		if (this.left) {
-			this.left.computeXCoords(newX1);
+			this.left.computeXCoords(newX1, newXOffset / TreeNode.downscaleFactor);
 		}
 		if (this.right) {
-			this.right.computeXCoords(newX2);
+			this.right.computeXCoords(newX2, newXOffset / TreeNode.downscaleFactor);
 		}
 	}
 }
@@ -54,14 +59,25 @@ export class TreeNode {
 export class Tree {
 	root: TreeNode;
 	nodes: TreeNode[];
-	constructor(root: skillData) {
-		this.root = new TreeNode(root.name, root.minLevel, root.preReqs, root.postReqs);
+	constructor(root: [keyof typeof SKILL_INFO, skillData]) {
+		this.root = new TreeNode(
+			root[0] as string,
+			root[1].minLevel,
+			root[1].preReqs as (keyof typeof SKILL_INFO)[],
+			root[1].postReqs as (keyof typeof SKILL_INFO)[],
+		);
 		this.nodes = [this.root];
 	}
 
 	initChildren(currentNode: TreeNode) {
 		const childNodes = currentNode.postReqs.map(
-			(child) => new TreeNode(child.name, child.minLevel, child.preReqs, child.postReqs),
+			(child) =>
+				new TreeNode(
+					child[0] as string,
+					child[1].minLevel,
+					child[1].preReqs as (keyof typeof SKILL_INFO)[],
+					child[1].postReqs as (keyof typeof SKILL_INFO)[],
+				),
 		);
 		childNodes.forEach((node) => this.nodes.push(node));
 

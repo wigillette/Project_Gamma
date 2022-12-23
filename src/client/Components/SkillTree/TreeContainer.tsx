@@ -14,8 +14,8 @@ import {
 	Header,
 	Title,
 } from "client/GlobalUI/PropertyPresets/RectUI";
-import { Tree } from "client/Wrappers/Tree";
-import SKILL_INFO from "shared/SkillInfo";
+import { Tree, TreeNode } from "client/Wrappers/Tree";
+import SKILL_INFO, { skillData } from "shared/SkillInfo";
 
 interface UIProps {
 	toggle: boolean;
@@ -28,10 +28,10 @@ class TreeContainer extends Roact.Component<UIProps> {
 	constructor(props: UIProps) {
 		super(props);
 		this.frameRef = Roact.createRef<Frame>();
-		this.skillTree = new Tree(SKILL_INFO[0]);
+		this.skillTree = new Tree(["Beginner" as keyof typeof SKILL_INFO, SKILL_INFO.get("Beginner") as skillData]);
 		this.skillTree.initChildren(this.skillTree.root);
-		this.skillTree.root.computeXCoords(0.5);
-		this.skillTree.root.computeYCoords(0);
+		this.skillTree.root.computeXCoords(0.5, TreeNode.X_OFFSET);
+		this.skillTree.root.computeYCoords(0, TreeNode.Y_OFFSET);
 	}
 
 	render() {
@@ -65,6 +65,7 @@ class TreeContainer extends Roact.Component<UIProps> {
 									requiredLevel={tostring(node.minLevel)}
 									hasLeftChild={node.left !== undefined}
 									hasRightChild={node.right !== undefined}
+									branchScaleFactor={node.branchScaleFactor}
 								/>
 							))}
 						</imagelabel>
